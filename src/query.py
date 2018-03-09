@@ -34,7 +34,12 @@ class FindIdQuery(Query):
                          .replace('##', label))
 
     def extract(self):
+
         if self.response is None:
             raise ValueError('response not requested yet.')
+
+        if len(self.response['results']['bindings']) == 0:
+            raise ValueError('no fitting id found.')
+
         return [binding['item']['value'] for binding in self.response['results']['bindings']][0]\
             .replace('http://www.wikidata.org/entity/', '')

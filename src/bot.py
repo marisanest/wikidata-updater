@@ -11,11 +11,11 @@ logging.basicConfig(filename=config['log'], level=logging.INFO)
 
 
 def run():
-    # logging.info(' Parsing files started.')
+    logging.info(' Parsing files started.')
 
-    # for file in config['files']:
-    #    CSVParser(*file.values()).parse_csv().save_as_json(file['save_path'])
-    #    logging.info(' Parsed file ' + file['path'] + ' finished.')
+    for file in config['files']:
+        CSVParser(*file.values()).parse_csv().save_as_json(file['save_path'])
+        logging.info(' Parsed file ' + file['path'] + ' finished.')
 
     logging.info(' importing files started')
 

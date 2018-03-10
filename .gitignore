@@ -104,6 +104,7 @@ ENV/
 /data/*
 config.yaml
 src/apicache-py3
+/log/*
 
 # pywikibot
 src/user-config.py

@@ -3,15 +3,17 @@ import pywikibot
 
 class WikidataItem(object):
 
-    SITE = pywikibot.Site('wikidata', 'wikidata')
-    DATA_SITE = pywikibot.site.DataSite('wikidata', 'wikidata')
-    ENTITY_BASE_URI = 'https://www.wikidata.org/wiki/'
+    SITE = pywikibot.site.DataSite('wikidata', 'wikidata')
+    ENTITY_BASE_URI = 'http://www.wikidata.org/entity/'
 
     def __init__(self, id):
-        self.item = pywikibot.ItemPage.from_entity_uri(self.DATA_SITE, self.ENTITY_BASE_URI + id)
+        self.item = pywikibot.ItemPage.from_entity_uri(self.SITE, self.ENTITY_BASE_URI + id)
 
     def update(self, data):
-        self.add_description(data['descriptions'])
+
+        if 'descriptions' in data:
+            self.add_description(data['descriptions'])
+
         self.add_claims(data['claims'], data['references'])
 
     def add_description(self, description):
@@ -31,11 +33,11 @@ class WikidataItem(object):
     def add_claims(self, claims, references):
 
         for claim in claims:
-            self.add_claim(claim)
+            wd_claim = self.add_claim(claim)
 
             if 'qualifiers' in claim:
-                self.add_qualifiers(claim, claim['qualifiers'])
-                self.add_references(claim, references)
+                self.add_qualifiers(wd_claim, claim['qualifiers'])
+                self.add_references(wd_claim, references)
 
     def add_claim(self, claim):
         """
@@ -48,7 +50,7 @@ class WikidataItem(object):
         @rtype: pywikibot.page.Claim
         """
 
-        wd_claim = pywikibot.Claim(self.DATA_SITE, claim['id'])
+        wd_claim = pywikibot.Claim(self.SITE, claim['id'])
         wd_claim.setTarget(self.get_target(wd_claim, claim['value']))
 
         self.item.addClaim(
@@ -74,7 +76,7 @@ class WikidataItem(object):
 
     def add_qualifier(self, claim, qualifier):
 
-        wd_qualifier = pywikibot.Claim(self.DATA_SITE, qualifier['id'], isQualifier=True)
+        wd_qualifier = pywikibot.Claim(self.SITE, qualifier['id'], isQualifier=True)
         wd_qualifier.setTarget(self.get_target(wd_qualifier, qualifier['value']))
 
         claim.addQualifier(
@@ -97,7 +99,7 @@ class WikidataItem(object):
 
         for reference in references:
 
-            wd_reference = pywikibot.Claim(self.DATA_SITE, reference['id'], isReference=True)
+            wd_reference = pywikibot.Claim(self.SITE, reference['id'], isReference=True)
             wd_reference.setTarget(self.get_target(wd_reference, reference['value']))
             wd_references.append(wd_reference)
 
@@ -110,7 +112,7 @@ class WikidataItem(object):
     def get_target(self, wd_claim, claim):
 
         if wd_claim.type == 'wikibase-item':
-            return pywikibot.ItemPage(self.DATA_SITE, claim)
+            return pywikibot.ItemPage(self.SITE, claim)
         elif wd_claim.type == 'time':
             year, month, day = claim
             return pywikibot.WbTime(year=year, month=month, day=day)

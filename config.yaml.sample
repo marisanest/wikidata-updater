@@ -1,0 +1,13 @@
+files:
+  -
+    path:
+    step_size:
+    buffer:
+    save_path:
+log:
+mail:
+  host:
+  port:
+  password:
+  sender:
+  recipients:

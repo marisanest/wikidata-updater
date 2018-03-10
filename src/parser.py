@@ -2,7 +2,6 @@ import datetime
 import csv
 import json
 import re
-import traceback
 import logging
 
 from query import FindIdQuery
@@ -27,9 +26,7 @@ class CSVParser(object):
 
     federal_court_dataset_ids = None
 
-    logger = logging.basicConfig(filename='../log/dev.log', level=logging.INFO)
-
-    def __init__(self, csv_path, step_size):
+    def __init__(self, csv_path, step_size, buffer=False, buffer_path=None):
         with open(csv_path, newline='') as file:
             self.csv = [_ for _ in csv.reader(file, delimiter=';', quotechar='"')]
         self.header = self.csv[0][1:]
@@ -37,8 +34,24 @@ class CSVParser(object):
         self.step_size = step_size
         self.parsed_data = None
 
+        if buffer and not buffer_path:
+            raise ValueError(' If buffer is set to True, buffer_path has to be set as well.')
+
+        self.buffer = buffer
+        self.buffer_path = buffer_path
+
     def parse_csv(self):
-        self.parsed_data = [self.parse_line(line) for line in self.data]
+
+        self.parsed_data = []
+
+        for line in self.data:
+            self.parsed_data.append(self.parse_line(line))
+
+            if self.buffer:
+                self.save_as_json(self.buffer_path)
+
+            logging.info(' Line with id = ' + line[0] + ' parsed.')
+
         return self
 
     def parse_line(self, line):
@@ -75,9 +88,8 @@ class CSVParser(object):
             try:
                 value = self.parse_value(value, property)
             except Exception as error:
-                logging.warning('value=' + value + ' could not be parsed for property=' + property)
-                logging.warning(repr(error))
-                logging.warning(traceback.format_exc())
+                logging.warning(
+                    ' Value = ' + value + ' could not be parsed for property = ' + property + ': ' + repr(error))
                 continue
 
             claim = {
@@ -94,12 +106,12 @@ class CSVParser(object):
 
         return parsed_line
 
-    def save_as_json(self, json_path):
+    def save_as_json(self, save_path):
 
         if self.parsed_data is None:
             raise ValueError('data not parsed yet')
 
-        with open(json_path, 'w') as file:
+        with open(save_path, 'w') as file:
             json.dump(self.parsed_data, file)
 
     @classmethod

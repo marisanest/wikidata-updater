@@ -4,5 +4,10 @@ pywikibot
 datetime
 csv
 re
-traceback
 logging
+yaml
+smtplib
+os
+email
+sys
+traceback

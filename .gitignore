@@ -100,6 +100,9 @@ ENV/
 # mypy
 .mypy_cache/
 
+# config
+config.yaml
+
 # pywikibot user-config
-.src/user-config.py
+src/user-config.py
 .pwd

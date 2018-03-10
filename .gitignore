@@ -100,9 +100,16 @@ ENV/
 # mypy
 .mypy_cache/
 
-# config
+# wikidata-updater
+/data/*
 config.yaml
+src/apicache-py3
 
-# pywikibot user-config
+# pywikibot
 src/user-config.py
 .pwd
+src/pywikibot.lwp
+src/throttle.ctrl
+
+# pycharme
+.idea/*

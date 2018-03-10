@@ -1,6 +1,6 @@
 # wikidata-updater
 
-Tool to import data to wikidata.
+Tool to update items on wikidata.
 
 ## Installation
 
@@ -20,9 +20,8 @@ Fill out the config.yaml. The mail parameters only need to be set if you run the
 The calling syntax is
 ```
 $ python src/main.py [--mail]
-
 ```
-where when the --mail flag is set, an email will be send if an error occurs or the import is finished.
+where when the --mail flag is set, an email will be send if an error occurs or the update is finished.
 
 ## License
 

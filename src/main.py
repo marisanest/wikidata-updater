@@ -23,7 +23,7 @@ try:
 
 except Exception as exception:
 
-    logging.error(' Import could not be processed: ' + traceback.print_exc())
+    logging.error(' Import could not be processed.', exc_info=exception, stack_info=True)
     if mail:
         mailer.send_error()
     exit(1)

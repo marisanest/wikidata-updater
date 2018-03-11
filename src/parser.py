@@ -87,9 +87,12 @@ class CSVParser(object):
 
             try:
                 value = self.parse_value(value, property)
-            except Exception as error:
+            except Exception as exception:
                 logging.warning(
-                    ' Value = ' + value + ' could not be parsed for property = ' + property + ': ' + repr(error))
+                    ' Value = ' + value + ' could not be parsed for property = ' + property + '.',
+                    exc_info=exception,
+                    stack_info=True
+                )
                 continue
 
             claim = {

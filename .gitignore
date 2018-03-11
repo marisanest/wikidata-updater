@@ -112,5 +112,5 @@ src/user-config.py
 src/pywikibot.lwp
 src/throttle.ctrl
 
-# pycharme
+# pycharm
 .idea/*

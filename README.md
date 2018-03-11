@@ -6,6 +6,7 @@ Tool to update items on wikidata.
 
 ```
 $ git clone https://github.com/marisanest/wikidata-updater.git
+$ pip install -r requirements.txt
 ```
 
 ## Configuration

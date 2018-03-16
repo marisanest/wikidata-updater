@@ -132,21 +132,21 @@ class CSVParser(object):
     @classmethod
     def parse_qualifiers(cls, qualifier_ids, qualifier_values):
 
-        parse_qualifiers = []
+        parsed_qualifiers = []
 
         for index, qualifier_value in enumerate(qualifier_values):
 
             if cls.is_parseable(qualifier_value):
                 qualifier_value = cls.parse_value(qualifier_value)
 
-                parse_qualifiers.append(
+                parsed_qualifiers.append(
                     {
                         'id': qualifier_ids[index],
                         'value': qualifier_value
                     }
                 )
 
-        return parse_qualifiers
+        return parsed_qualifiers
 
     @classmethod
     def get_references(cls, id):
@@ -234,7 +234,7 @@ class CSVParser(object):
     @classmethod
     def get_id(cls, property, label):
         """
-        Helper function to search the id for an item with the label given label.
+        Function to search the id for an item with the label given label.
         The item sould fit as an value for the given property.
 
         @param property: property

@@ -3,7 +3,7 @@ import requests
 
 class SPARQLEndpoint(object):
     """
-    Wrapper Class for The MediaWiki action API.
+    Wrapper Class for the SPARQL endpoint.
     """
 
     URL = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql'

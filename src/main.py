@@ -1,6 +1,5 @@
 import logging
 import sys
-import traceback
 
 import bot
 import mailer
